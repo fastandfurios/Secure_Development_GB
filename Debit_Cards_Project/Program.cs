@@ -1,8 +1,19 @@
+using Debit_Cards_Project.DAL.Context;
+using Debit_Cards_Project.DAL.Interfaces;
+using Debit_Cards_Project.DAL.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddSingleton<IDebitCardRepository, DebitCardRepository>();
+
+builder.Services.AddDbContext<DebitCardsDB>(op => 
+    op.UseNpgsql());
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
