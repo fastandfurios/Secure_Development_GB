@@ -11,5 +11,8 @@ namespace Debit_Cards_Project.DAL.Context
         {
             Database.EnsureCreated();
         }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
+        //    optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;Username=postgres;Password=admin;");
     }
 }
