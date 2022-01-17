@@ -7,12 +7,7 @@ namespace Debit_Cards_Project.DAL.Context
     {
         public DbSet<DebitCard> Cards { get; set; }
 
-        public DebitCardsDB(DbContextOptions<DebitCardsDB> options) : base(options)
-        {
-            Database.EnsureCreated();
-        }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
-        //    optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;Username=postgres;Password=admin;");
+        public DebitCardsDB(DbContextOptions<DebitCardsDB> options) : base(options) 
+            => Database.EnsureCreated();
     }
 }
