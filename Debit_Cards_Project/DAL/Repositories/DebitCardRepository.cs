@@ -71,7 +71,8 @@ namespace Debit_Cards_Project.DAL.Repositories
             db_card.CurrencyName = card.CurrencyName;
             db_card.Holder = card.Holder;
             db_card.NumberCard = card.NumberCard;
-            db_card.ValidityPeriod = card.ValidityPeriod;
+            db_card.Month = card.Month;
+            db_card.Year = card.Year;
         }
 
         public void Delete(int id)
