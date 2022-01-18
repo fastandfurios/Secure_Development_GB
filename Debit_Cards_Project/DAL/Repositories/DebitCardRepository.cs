@@ -24,7 +24,14 @@ namespace Debit_Cards_Project.DAL.Repositories
             if(ReadAll().Contains(card))
                 return;
 
+            if (card.Month is < 0 or > 12 ||
+                card.NumberCard.ToString().Length is < 0 or > 16 ||
+                card.Year < 0 ||
+                card.Year.ToString().Length > 2)
+                throw new ArgumentOutOfRangeException();
+
             _db.Cards.Add(card);
+            _db.SaveChanges();
         }
 
         public IReadOnlyList<DebitCard> ReadAll()
@@ -45,9 +52,6 @@ namespace Debit_Cards_Project.DAL.Repositories
         {
             try
             {
-                if (id < 0 || id > _length)
-                    throw new ArgumentOutOfRangeException();
-
                 return ReadAll().FirstOrDefault(card => card.Id == id)!;
             }
             catch (Exception e)
@@ -62,17 +66,24 @@ namespace Debit_Cards_Project.DAL.Repositories
             if (card is null)
                 throw new ArgumentNullException(nameof(card));
 
-            if (id < 0 || id > _length)
+            if (ReadAll().Contains(card))
+                return;
+
+            if (card.Month is < 0 or > 12 ||
+                card.NumberCard.ToString().Length is < 0 or > 16 ||
+                card.Year < 0 ||
+                card.Year.ToString().Length > 2)
                 throw new ArgumentOutOfRangeException();
 
-            if (!ReadAll().Contains(card)) return;
+            var card_db = _db.Cards.Find(id)!;
 
-            var db_card = ReadById(id);
-            db_card.CurrencyName = card.CurrencyName;
-            db_card.Holder = card.Holder;
-            db_card.NumberCard = card.NumberCard;
-            db_card.Month = card.Month;
-            db_card.Year = card.Year;
+            card_db.CurrencyName = card.CurrencyName;
+            card_db.Holder = card.Holder;
+            card_db.NumberCard = card.NumberCard;
+            card_db.Month = card.Month;
+            card_db.Year = card.Year;
+
+            _db.SaveChanges();
         }
 
         public void Delete(int id)
@@ -83,6 +94,7 @@ namespace Debit_Cards_Project.DAL.Repositories
             if(!ReadAll().Contains(ReadById(id))) return;
 
             _db.Cards.Remove(ReadById(id));
+            _db.SaveChanges();
         }
     }
 }
