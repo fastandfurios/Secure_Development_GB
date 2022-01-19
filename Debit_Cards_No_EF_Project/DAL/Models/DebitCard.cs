@@ -8,7 +8,7 @@ namespace Debit_Cards_No_EF_Project.DAL.Models
         public string CurrencyName { get; set; }
         
         /// <summary> Держатель карты </summary>
-        public Holder Holder { get; set; }
+        public string Holder { get; set; }
 
         [JsonIgnore]
         public int Id { get; set; }
