@@ -20,9 +20,6 @@ namespace Debit_Cards_No_EF_Project.DAL.Repositories
             if(card is null)
                 throw new ArgumentNullException(nameof(card));
 
-            if(ReadAll().Contains(card))
-                return;
-
             if (card.Month is < 0 or > 12 ||
                 card.NumberCard.ToString().Length is < 0 or > 16 ||
                 card.Year < 0 ||
@@ -61,7 +58,9 @@ namespace Debit_Cards_No_EF_Project.DAL.Repositories
         {
             try
             {
-                return ReadAll().FirstOrDefault(card => card.Id == id)!;
+                using var connection = _connection.GetOpenedConnection();
+                return connection.QuerySingleOrDefault<DebitCard>("SELECT * FROM Debit_Cards WHERE Id=@id",
+                    new { Id = id });
             }
             catch (Exception e)
             {
@@ -75,9 +74,6 @@ namespace Debit_Cards_No_EF_Project.DAL.Repositories
             if (card is null)
                 throw new ArgumentNullException(nameof(card));
 
-            if (ReadAll().Contains(card))
-                return;
-
             if (card.Month is < 0 or > 12 ||
                 card.NumberCard.ToString().Length is < 0 or > 16 ||
                 card.Year < 0 ||
@@ -85,6 +81,7 @@ namespace Debit_Cards_No_EF_Project.DAL.Repositories
                 throw new ArgumentOutOfRangeException();
 
             using var connection = _connection.GetOpenedConnection();
+            
             connection.Execute("UPDATE Debit_Cards SET CurrencyName=@CurrencyName, Holder=@Holder, NumberCard=@NumberCard, Month=@Month, Year=@Year WHERE Id=@id",
                 new
                 {
@@ -98,10 +95,17 @@ namespace Debit_Cards_No_EF_Project.DAL.Repositories
 
         public void Delete(int id)
         {
-            using var connection = _connection.GetOpenedConnection();
-
-            if (ReadAll().Contains(ReadById(id)))
-                connection.Execute("DELETE FROM Debit_Cards WHERE Id=@id");
+            try
+            {
+                using var connection = _connection.GetOpenedConnection();
+                connection.Execute("DELETE FROM Debit_Cards WHERE Id=@id",
+                    new { Id = id });
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation(e.Message);
+                throw;
+            }
         }
     }
 }
