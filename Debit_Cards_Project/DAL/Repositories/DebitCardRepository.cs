@@ -88,9 +88,6 @@ namespace Debit_Cards_Project.DAL.Repositories
 
         public void Delete(int id)
         {
-            if (id < 0 || id > _length)
-                throw new ArgumentOutOfRangeException();
-
             if (ReadAll().Contains(ReadById(id)))
             {
                 _db.Cards.Remove(ReadById(id));

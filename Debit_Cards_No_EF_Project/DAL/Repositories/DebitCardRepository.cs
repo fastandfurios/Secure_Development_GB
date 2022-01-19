@@ -7,7 +7,6 @@ namespace Debit_Cards_No_EF_Project.DAL.Repositories
     public sealed class DebitCardRepository : IDebitCardRepository
     {
         private readonly IConnection _connection;
-        private int _length;
         private readonly ILogger<DebitCardRepository> _logger;
 
         public DebitCardRepository(IConnection connection, ILogger<DebitCardRepository> logger)
@@ -32,7 +31,7 @@ namespace Debit_Cards_No_EF_Project.DAL.Repositories
 
             using var connection = _connection.GetOpenedConnection();
 
-            connection.Execute("INSERT INTO Cards(Id, NumberCard, CurrencyName, Holder, Month, Year) VALUES(@Id, @NumberCard, @CurrencyName, @Holder, @Month, @Year)",
+            connection.Execute("INSERT INTO Debit_Cards(Id, NumberCard, CurrencyName, Holder, Month, Year) VALUES(@Id, @NumberCard, @CurrencyName, @Holder, @Month, @Year)",
                 new
                 {
                     Id = card.Id,
@@ -49,7 +48,7 @@ namespace Debit_Cards_No_EF_Project.DAL.Repositories
             try
             {
                 using var connection = _connection.GetOpenedConnection();
-                return connection.Query<DebitCard>("SELECT * FROM Cards").ToList();
+                return connection.Query<DebitCard>("SELECT * FROM Debit_Cards").ToList();
             }
             catch (Exception e)
             {
@@ -86,7 +85,7 @@ namespace Debit_Cards_No_EF_Project.DAL.Repositories
                 throw new ArgumentOutOfRangeException();
 
             using var connection = _connection.GetOpenedConnection();
-            connection.Execute("UPDATE Cards SET CurrencyName=@CurrencyName, Holder=@Holder, NumberCard=@NumberCard, Month=@Month, Year=@Year WHERE Id=@id",
+            connection.Execute("UPDATE Debit_Cards SET CurrencyName=@CurrencyName, Holder=@Holder, NumberCard=@NumberCard, Month=@Month, Year=@Year WHERE Id=@id",
                 new
                 {
                     CurrencyName = card.CurrencyName,
@@ -99,13 +98,10 @@ namespace Debit_Cards_No_EF_Project.DAL.Repositories
 
         public void Delete(int id)
         {
-            if (id < 0 || id > _length)
-                throw new ArgumentOutOfRangeException();
-
             using var connection = _connection.GetOpenedConnection();
 
             if (ReadAll().Contains(ReadById(id)))
-                connection.Execute("DELETE FROM Cards WHERE Id=@id");
+                connection.Execute("DELETE FROM Debit_Cards WHERE Id=@id");
         }
     }
 }
