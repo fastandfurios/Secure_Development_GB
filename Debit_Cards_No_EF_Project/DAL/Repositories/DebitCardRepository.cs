@@ -53,7 +53,7 @@ namespace Debit_Cards_No_EF_Project.DAL.Repositories
             catch (Exception e)
             {
                 _logger.LogInformation(e.Message);
-                throw;
+                return Array.Empty<DebitCard>();
             }
         }
 
