@@ -10,7 +10,6 @@ namespace Debit_Cards_No_EF_Project.DAL.Models
         /// <summary> Держатель карты </summary>
         public string Holder { get; set; }
 
-        [JsonIgnore]
         public int Id { get; set; }
 
         /// <summary> Номер карты </summary>
