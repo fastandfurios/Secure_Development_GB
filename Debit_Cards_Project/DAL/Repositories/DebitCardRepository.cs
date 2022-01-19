@@ -91,10 +91,11 @@ namespace Debit_Cards_Project.DAL.Repositories
             if (id < 0 || id > _length)
                 throw new ArgumentOutOfRangeException();
 
-            if(!ReadAll().Contains(ReadById(id))) return;
-
-            _db.Cards.Remove(ReadById(id));
-            _db.SaveChanges();
+            if (ReadAll().Contains(ReadById(id)))
+            {
+                _db.Cards.Remove(ReadById(id));
+                _db.SaveChanges();
+            }
         }
     }
 }

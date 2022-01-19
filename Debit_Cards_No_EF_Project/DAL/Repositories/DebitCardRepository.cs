@@ -1,17 +1,18 @@
-﻿using Debit_Cards_No_EF_Project.DAL.Interfaces;
+﻿using Dapper;
+using Debit_Cards_No_EF_Project.DAL.Interfaces;
 using Debit_Cards_No_EF_Project.DAL.Models;
 
 namespace Debit_Cards_No_EF_Project.DAL.Repositories
 {
     public sealed class DebitCardRepository : IDebitCardRepository
     {
-        private readonly DebitCardsDB _db;
+        private readonly IConnection _connection;
         private int _length;
         private readonly ILogger<DebitCardRepository> _logger;
 
-            public DebitCardRepository(DebitCardsDB db, ILogger<DebitCardRepository> logger)
+        public DebitCardRepository(IConnection connection, ILogger<DebitCardRepository> logger)
         {
-            _db = db;
+            _connection = connection;
             _logger = logger;
         }
 
@@ -29,16 +30,26 @@ namespace Debit_Cards_No_EF_Project.DAL.Repositories
                 card.Year.ToString().Length > 2)
                 throw new ArgumentOutOfRangeException();
 
-            _db.Cards.Add(card);
-            _db.SaveChanges();
+            using var connection = _connection.GetOpenedConnection();
+
+            connection.Execute("INSERT INTO Cards(Id, NumberCard, CurrencyName, Holder, Month, Year) VALUES(@Id, @NumberCard, @CurrencyName, @Holder, @Month, @Year)",
+                new
+                {
+                    Id = card.Id,
+                    Month = card.Month,
+                    NumberCard = card.NumberCard,
+                    Year = card.Year,
+                    Holder = card.Holder,
+                    CurrencyName = card.CurrencyName
+                });
         }
 
         public IReadOnlyList<DebitCard> ReadAll()
         {
             try
             {
-                _length = _db.Cards.ToList().Count;
-                return _db.Cards.ToList();
+                using var connection = _connection.GetOpenedConnection();
+                return connection.Query<DebitCard>("SELECT * FROM Cards").ToList();
             }
             catch (Exception e)
             {
@@ -74,15 +85,16 @@ namespace Debit_Cards_No_EF_Project.DAL.Repositories
                 card.Year.ToString().Length > 2)
                 throw new ArgumentOutOfRangeException();
 
-            var card_db = _db.Cards.Find(id)!;
-
-            card_db.CurrencyName = card.CurrencyName;
-            card_db.Holder = card.Holder;
-            card_db.NumberCard = card.NumberCard;
-            card_db.Month = card.Month;
-            card_db.Year = card.Year;
-
-            _db.SaveChanges();
+            using var connection = _connection.GetOpenedConnection();
+            connection.Execute("UPDATE Cards SET CurrencyName=@CurrencyName, Holder=@Holder, NumberCard=@NumberCard, Month=@Month, Year=@Year WHERE Id=@id",
+                new
+                {
+                    CurrencyName = card.CurrencyName,
+                    Holder = card.Holder,
+                    NumberCard = card.NumberCard,
+                    Month = card.Month,
+                    Year = card.Year,
+                });
         }
 
         public void Delete(int id)
@@ -90,10 +102,10 @@ namespace Debit_Cards_No_EF_Project.DAL.Repositories
             if (id < 0 || id > _length)
                 throw new ArgumentOutOfRangeException();
 
-            if(!ReadAll().Contains(ReadById(id))) return;
+            using var connection = _connection.GetOpenedConnection();
 
-            _db.Cards.Remove(ReadById(id));
-            _db.SaveChanges();
+            if (ReadAll().Contains(ReadById(id)))
+                connection.Execute("DELETE FROM Cards WHERE Id=@id");
         }
     }
 }

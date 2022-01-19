@@ -1,8 +1,13 @@
+using Debit_Cards_No_EF_Project.DAL.Interfaces;
+using Debit_Cards_No_EF_Project.DAL.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddSingleton<IConnection, Connection>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
