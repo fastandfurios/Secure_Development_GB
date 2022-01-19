@@ -1,8 +1,8 @@
-﻿using Debit_Cards_Project.DAL.Interfaces;
-using Debit_Cards_Project.DAL.Models;
+﻿using Debit_Cards_No_EF_Project.DAL.Interfaces;
+using Debit_Cards_No_EF_Project.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Debit_Cards_Project.Controllers
+namespace Debit_Cards_No_EF_Project.Controllers
 {
     [ApiController]
     [Route("/debit_card")]
