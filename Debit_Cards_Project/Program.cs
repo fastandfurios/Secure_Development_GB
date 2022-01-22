@@ -4,7 +4,6 @@ using Debit_Cards_Project.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-IConfiguration configuration = new ConfigurationManager();
 
 // Add services to the container.
 
