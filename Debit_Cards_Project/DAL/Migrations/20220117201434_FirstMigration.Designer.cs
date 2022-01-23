@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Debit_Cards_Project.Migrations
 {
-    [DbContext(typeof(DebitCardsDB))]
+    [DbContext(typeof(DebitCardsDb))]
     [Migration("20220117201434_FirstMigration")]
     partial class FirstMigration
     {

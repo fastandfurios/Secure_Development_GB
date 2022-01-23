@@ -6,11 +6,11 @@ namespace Debit_Cards_Project.DAL.Repositories
 {
     public sealed class DebitCardRepository : IDebitCardRepository
     {
-        private readonly DebitCardsDB _db;
+        private readonly DebitCardsDb _db;
         private int _length;
         private readonly ILogger<DebitCardRepository> _logger;
 
-            public DebitCardRepository(DebitCardsDB db, ILogger<DebitCardRepository> logger)
+            public DebitCardRepository(DebitCardsDb db, ILogger<DebitCardRepository> logger)
         {
             _db = db;
             _logger = logger;
