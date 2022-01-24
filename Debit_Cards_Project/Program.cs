@@ -5,6 +5,7 @@ using Debit_Cards_Project.DAL.Models.User.Login;
 using Debit_Cards_Project.DAL.Repositories;
 using Debit_Cards_Project.Domain;
 using Debit_Cards_Project.Infrastructure.Security;
+using Debit_Cards_Project.Middleware;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -83,6 +84,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseAuthorization();
 app.UseAuthentication();
 
