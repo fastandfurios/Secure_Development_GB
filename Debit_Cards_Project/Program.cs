@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 
@@ -52,17 +51,25 @@ identityBuilder.AddEntityFrameworkStores<UsersDb>();
 identityBuilder.AddSignInManager<SignInManager<AppUser>>();
 
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"]));
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
     .AddJwtBearer(option =>
     {
+        option.RequireHttpsMetadata = false;
+        option.SaveToken = true;
         option.TokenValidationParameters = new()
         {
             IssuerSigningKey = key,
             ValidateAudience = false,
             ValidateIssuer = false,
             ValidateIssuerSigningKey = false,
+            ClockSkew = TimeSpan.Zero,
         };
     });
+
 #endregion
 
 #region configuring Swagger/OpenAPI
