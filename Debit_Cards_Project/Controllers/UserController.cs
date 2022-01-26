@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Debit_Cards_Project.Controllers
 {
     [AllowAnonymous]
+    [ApiController]
+    [Route("/debit_card")]
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
