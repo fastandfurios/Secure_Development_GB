@@ -9,19 +9,10 @@
     }
   },
   "profiles": {
-    "Run (prod)": {
+    "Debit_Cards_Project": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "bank",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production"
-      },
-      "applicationUrl": "http://localhost:5064",
-      "dotnetRunMessages": true
-    }, 
-    "Run (dev)": {
-      "commandName": "Project",
-      "launchBrowser": false,
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
