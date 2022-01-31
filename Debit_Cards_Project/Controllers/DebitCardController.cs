@@ -1,5 +1,5 @@
 ﻿using Debit_Cards_Project.DAL.Interfaces;
-using Debit_Cards_Project.DAL.Models;
+using Debit_Cards_Project.DAL.Models.DebitCard;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

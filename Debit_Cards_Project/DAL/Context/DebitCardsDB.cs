@@ -1,4 +1,4 @@
-﻿using Debit_Cards_Project.DAL.Models;
+﻿using Debit_Cards_Project.DAL.Models.DebitCard;
 using Microsoft.EntityFrameworkCore;
 
 namespace Debit_Cards_Project.DAL.Context
