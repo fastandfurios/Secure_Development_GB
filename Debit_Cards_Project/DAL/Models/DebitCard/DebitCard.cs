@@ -6,7 +6,10 @@ namespace Debit_Cards_Project.DAL.Models.DebitCard
     {
         /// <summary> Название валюты </summary>
         public string CurrencyName { get; set; }
-        
+
+        [JsonIgnore]
+        public int HolderId { get; set; }
+
         /// <summary> Держатель карты </summary>
         public Holder Holder { get; set; }
 
