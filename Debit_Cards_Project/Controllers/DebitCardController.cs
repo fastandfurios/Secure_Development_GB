@@ -1,5 +1,7 @@
-﻿using Debit_Cards_Project.DAL.Interfaces;
+﻿using AutoMapper;
+using Debit_Cards_Project.DAL.Interfaces;
 using Debit_Cards_Project.DAL.Models.DebitCard;
+using Debit_Cards_Project.DTO;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +16,16 @@ namespace Debit_Cards_Project.Controllers
         private readonly IDebitCardRepository _debitCardRepository;
         private readonly ILogger<DebitCardController> _logger;
         private readonly IValidator<DebitCard> _validator;
+        private readonly IMapper _mapper;
 
-        public DebitCardController(IDebitCardRepository debitCardRepository, ILogger<DebitCardController> logger, IValidator<DebitCard> validator)
+        public DebitCardController(IDebitCardRepository debitCardRepository,
+            ILogger<DebitCardController> logger,
+            IMapper mapper,
+            IValidator<DebitCard> validator)
         {
             _debitCardRepository = debitCardRepository;
             _logger = logger;
+            _mapper = mapper;
             _validator = validator;
         }
         
@@ -46,14 +53,27 @@ namespace Debit_Cards_Project.Controllers
             _logger.LogInformation("Id: {0}", id);
 
             var card = _debitCardRepository.ReadById(id);
-            return Ok(card);
+
+            var holderDto = _mapper.Map<HolderDto>(card.Holder);
+
+            var cardDto = _mapper.Map<DebitCardDto>(card);
+
+            cardDto.HolderDto = holderDto;
+
+            return Ok(cardDto);
         }
 
         [HttpGet("cards")]
         public IActionResult GetAllCards()
         {
-            var cards = _debitCardRepository.ReadAll();
-            return Ok(cards);
+            var cardsDto = _debitCardRepository.ReadAll().Select(card =>
+            {
+                var holderDto = _mapper.Map<HolderDto>(card.Holder);
+                var cardDto = _mapper.Map<DebitCardDto>(card);
+                cardDto.HolderDto = holderDto;
+                return cardDto;
+            }).ToList();
+            return Ok(cardsDto);
         }
 
         [HttpPut("edit_card/{id}")]
