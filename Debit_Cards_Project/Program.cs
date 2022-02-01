@@ -1,3 +1,4 @@
+#region references
 using System.Text;
 using Debit_Cards_Project.DAL.Context;
 using Debit_Cards_Project.DAL.Interfaces;
@@ -7,6 +8,7 @@ using Debit_Cards_Project.DAL.Models.User.Registration;
 using Debit_Cards_Project.DAL.Repositories;
 using Debit_Cards_Project.Domain;
 using Debit_Cards_Project.Infrastructure.Security;
+using Debit_Cards_Project.Mapping;
 using Debit_Cards_Project.Middleware;
 using FluentValidation;
 using MediatR;
@@ -18,6 +20,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
+#endregion
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +35,8 @@ builder.Services.AddMediatR(typeof(RegistrationHandler).Assembly);
 builder.Services.AddScoped<IDebitCardRepository, DebitCardRepository>();
 builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
 builder.Services.AddScoped<IValidator<DebitCard>, DebitCardValidation>();
+
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
 
 builder.Services.AddDbContext<DebitCardsDb>(op => 
     op.UseNpgsql(builder.Configuration.GetConnectionString("Cards")));
