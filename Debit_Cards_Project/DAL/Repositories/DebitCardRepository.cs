@@ -18,17 +18,8 @@ namespace Debit_Cards_Project.DAL.Repositories
 
         public void Create(DebitCard card)
         {
-            if(card is null)
-                throw new ArgumentNullException(nameof(card));
-
             if(ReadAll().Contains(card))
                 return;
-
-            if (card.Month is < 0 or > 12 ||
-                card.NumberCard.ToString().Length is < 0 or > 16 ||
-                card.Year < 0 ||
-                card.Year.ToString().Length > 2)
-                throw new ArgumentOutOfRangeException();
 
             _db.Cards.Add(card);
             _db.SaveChanges();
@@ -63,17 +54,8 @@ namespace Debit_Cards_Project.DAL.Repositories
 
         public void Update(DebitCard card, int id)
         {
-            if (card is null)
-                throw new ArgumentNullException(nameof(card));
-
             if (ReadAll().Contains(card))
                 return;
-
-            if (card.Month is < 0 or > 12 ||
-                card.NumberCard.ToString().Length is < 0 or > 16 ||
-                card.Year < 0 ||
-                card.Year.ToString().Length > 2)
-                throw new ArgumentOutOfRangeException();
 
             var card_db = _db.Cards.Find(id)!;
 
