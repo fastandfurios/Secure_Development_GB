@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Debit_Cards_Project.Migrations
 {
-    [DbContext(typeof(DebitCardsDB))]
+    [DbContext(typeof(DebitCardsDb))]
     partial class DebitCardsDBModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

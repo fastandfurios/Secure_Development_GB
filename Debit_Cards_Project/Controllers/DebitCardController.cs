@@ -1,11 +1,13 @@
 ﻿using Debit_Cards_Project.DAL.Interfaces;
 using Debit_Cards_Project.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Debit_Cards_Project.Controllers
 {
     [ApiController]
     [Route("/debit_card")]
+    [Authorize]
     public class DebitCardController : ControllerBase
     {
         private readonly IDebitCardRepository _debitCardRepository;
@@ -16,7 +18,7 @@ namespace Debit_Cards_Project.Controllers
             _debitCardRepository = debitCardRepository;
             _logger = logger;
         }
-
+        
         [HttpPost("add_card")]
         public IActionResult Create([FromBody] DebitCard card)
         {
