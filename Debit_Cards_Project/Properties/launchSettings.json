@@ -18,7 +18,7 @@
       },
       "applicationUrl": "http://localhost:5064",
       "dotnetRunMessages": true
-    }, 
+    },
     "Run (dev)": {
       "commandName": "Project",
       "launchBrowser": false,
