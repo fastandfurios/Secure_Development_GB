@@ -7,6 +7,8 @@ using Debit_Cards_Project.DAL.Models.User.Login;
 using Debit_Cards_Project.DAL.Models.User.Registration;
 using Debit_Cards_Project.DAL.Repositories;
 using Debit_Cards_Project.Domain;
+using Debit_Cards_Project.Infrastructure.ChainOfResponsibility.Implementations;
+using Debit_Cards_Project.Infrastructure.ChainOfResponsibility.Interfaces;
 using Debit_Cards_Project.Infrastructure.Security;
 using Debit_Cards_Project.Mapping;
 using Debit_Cards_Project.Middleware;
@@ -43,6 +45,9 @@ builder.Services.AddDbContext<DebitCardsDb>(op =>
 
 builder.Services.AddDbContext<UsersDb>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Users")));
+
+builder.Services.AddDbContext<CashBackDb>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("CashBacks")));
 
 builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
 
@@ -81,6 +86,7 @@ builder.Services.AddAuthentication(x =>
         };
     });
 
+builder.Services.AddScoped<IChain, Chain>();
 #endregion
 
 #region configuring Swagger/OpenAPI
