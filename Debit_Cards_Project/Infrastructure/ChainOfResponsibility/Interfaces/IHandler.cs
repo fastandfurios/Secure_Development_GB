@@ -1,8 +1,10 @@
-﻿namespace Debit_Cards_Project.Infrastructure.ChainOfResponsibility.Interfaces
+﻿using Debit_Cards_Project.DAL.Models.CashBack;
+
+namespace Debit_Cards_Project.Infrastructure.ChainOfResponsibility.Interfaces
 {
     public interface IHandler
     {
         IHandler SetNext(IHandler handler);
-        object Handle(object request);
+        CashBack Handle(object request);
     }
 }

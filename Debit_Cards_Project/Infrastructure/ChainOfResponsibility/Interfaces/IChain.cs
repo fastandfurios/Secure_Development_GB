@@ -1,7 +1,9 @@
-﻿namespace Debit_Cards_Project.Infrastructure.ChainOfResponsibility.Interfaces
+﻿using Debit_Cards_Project.DAL.Models.CashBack;
+
+namespace Debit_Cards_Project.Infrastructure.ChainOfResponsibility.Interfaces
 {
     public interface IChain
     {
-        object GetCashBack(string request);
+        CashBack GetCashBack(string request);
     }
 }
