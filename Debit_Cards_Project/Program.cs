@@ -2,6 +2,7 @@
 using System.Text;
 using Debit_Cards_Project.DAL.Context;
 using Debit_Cards_Project.DAL.Interfaces;
+using Debit_Cards_Project.DAL.Models.CashBack;
 using Debit_Cards_Project.DAL.Models.DebitCard;
 using Debit_Cards_Project.DAL.Models.User.Login;
 using Debit_Cards_Project.DAL.Models.User.Registration;
@@ -35,11 +36,19 @@ builder.Services.AddMediatR(typeof(LoginHandler).Assembly);
 builder.Services.AddMediatR(typeof(RegistrationHandler).Assembly);
 
 builder.Services.AddScoped<IDebitCardRepository, DebitCardRepository>();
+builder.Services.AddScoped<ICashBackRepository, CashBackRepository>();
+
 builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
+
+#region validation services
 builder.Services.AddScoped<IValidator<DebitCard>, DebitCardValidation>();
+builder.Services.AddScoped<IValidator<Category>, CategoryValidation>();
+builder.Services.AddScoped<IValidator<CashBack>, CashBackValidation>();
+#endregion
 
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
 
+#region context services
 builder.Services.AddDbContext<DebitCardsDb>(op => 
     op.UseNpgsql(builder.Configuration.GetConnectionString("Cards")));
 
@@ -48,6 +57,7 @@ builder.Services.AddDbContext<UsersDb>(options =>
 
 builder.Services.AddDbContext<CashBackDb>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("CashBacks")));
+#endregion
 
 builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
 
