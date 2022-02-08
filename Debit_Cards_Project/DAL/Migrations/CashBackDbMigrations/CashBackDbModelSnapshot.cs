@@ -2,19 +2,17 @@
 using Debit_Cards_Project.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Debit_Cards_Project.Migrations.CashBackDbMigrations
+namespace Debit_Cards_Project.DAL.Migrations.CashBackDbMigrations
 {
     [DbContext(typeof(CashBackDb))]
-    [Migration("20220206214825_FirstMigration_CashBack")]
-    partial class FirstMigration_CashBack
+    partial class CashBackDbModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
