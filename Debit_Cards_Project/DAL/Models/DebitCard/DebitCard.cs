@@ -1,12 +1,15 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Debit_Cards_Project.DAL.Models
+namespace Debit_Cards_Project.DAL.Models.DebitCard
 {
     public sealed class DebitCard
     {
         /// <summary> Название валюты </summary>
         public string CurrencyName { get; set; }
-        
+
+        [JsonIgnore]
+        public int HolderId { get; set; }
+
         /// <summary> Держатель карты </summary>
         public Holder Holder { get; set; }
 
