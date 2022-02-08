@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Debit_Cards_No_EF_Project/Cards.db
+/Debit_Cards_Project/Validators/ValidatorsEx.cs.bak
+/Debit_Cards_Project/DAL/Models/User/Registration/RegistrationHandler.cs.bak
+/Debit_Cards_Project/DAL/Models/DebitCard/DebitCardValidation.cs.bak
