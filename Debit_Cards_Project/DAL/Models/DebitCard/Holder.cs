@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Debit_Cards_Project.DAL.Models
+namespace Debit_Cards_Project.DAL.Models.DebitCard
 {
     public sealed class Holder
     {

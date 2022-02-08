@@ -1,16 +1,15 @@
 ﻿using Debit_Cards_Project.DAL.Context;
 using Debit_Cards_Project.DAL.Interfaces;
-using Debit_Cards_Project.DAL.Models;
+using Debit_Cards_Project.DAL.Models.DebitCard;
 
 namespace Debit_Cards_Project.DAL.Repositories
 {
     public sealed class DebitCardRepository : IDebitCardRepository
     {
         private readonly DebitCardsDb _db;
-        private int _length;
         private readonly ILogger<DebitCardRepository> _logger;
 
-            public DebitCardRepository(DebitCardsDb db, ILogger<DebitCardRepository> logger)
+        public DebitCardRepository(DebitCardsDb db, ILogger<DebitCardRepository> logger)
         {
             _db = db;
             _logger = logger;
@@ -18,17 +17,8 @@ namespace Debit_Cards_Project.DAL.Repositories
 
         public void Create(DebitCard card)
         {
-            if(card is null)
-                throw new ArgumentNullException(nameof(card));
-
             if(ReadAll().Contains(card))
                 return;
-
-            if (card.Month is < 0 or > 12 ||
-                card.NumberCard.ToString().Length is < 0 or > 16 ||
-                card.Year < 0 ||
-                card.Year.ToString().Length > 2)
-                throw new ArgumentOutOfRangeException();
 
             _db.Cards.Add(card);
             _db.SaveChanges();
@@ -38,8 +28,22 @@ namespace Debit_Cards_Project.DAL.Repositories
         {
             try
             {
-                _length = _db.Cards.ToList().Count;
-                return _db.Cards.ToList();
+                var cards = _db.Cards.Join(_db.Holders,
+                    dc => dc.HolderId,
+                    holder => holder.Id,
+                    (dc, holder) => new DebitCard()
+                    {
+                        Id = dc.Id,
+                        HolderId = holder.Id,
+                        CurrencyName = dc.CurrencyName,
+                        Holder = holder,
+                        Month = dc.Month,
+                        Year = dc.Year,
+                        NumberCard = dc.NumberCard
+                    })
+                    .ToList();
+
+                return cards;
             }
             catch (Exception e)
             {
@@ -52,7 +56,10 @@ namespace Debit_Cards_Project.DAL.Repositories
         {
             try
             {
-                return ReadAll().FirstOrDefault(card => card.Id == id)!;
+                var debitCard = ReadAll().FirstOrDefault(card => card.Id == id)!;
+                var holderCard = _db.Holders.FirstOrDefault(holder => holder.Id == debitCard.HolderId);
+                debitCard.Holder = holderCard!;
+                return debitCard;
             }
             catch (Exception e)
             {
@@ -63,25 +70,16 @@ namespace Debit_Cards_Project.DAL.Repositories
 
         public void Update(DebitCard card, int id)
         {
-            if (card is null)
-                throw new ArgumentNullException(nameof(card));
-
             if (ReadAll().Contains(card))
                 return;
 
-            if (card.Month is < 0 or > 12 ||
-                card.NumberCard.ToString().Length is < 0 or > 16 ||
-                card.Year < 0 ||
-                card.Year.ToString().Length > 2)
-                throw new ArgumentOutOfRangeException();
+            var cardDb = _db.Cards.Find(id)!;
 
-            var card_db = _db.Cards.Find(id)!;
-
-            card_db.CurrencyName = card.CurrencyName;
-            card_db.Holder = card.Holder;
-            card_db.NumberCard = card.NumberCard;
-            card_db.Month = card.Month;
-            card_db.Year = card.Year;
+            cardDb.CurrencyName = card.CurrencyName;
+            cardDb.Holder = card.Holder;
+            cardDb.NumberCard = card.NumberCard;
+            cardDb.Month = card.Month;
+            cardDb.Year = card.Year;
 
             _db.SaveChanges();
         }
