@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Debit_Cards_Project.DAL.Context
 {
-    public sealed class DebitCardsDB : DbContext
+    public sealed class DebitCardsDb : DbContext
     {
         public DbSet<DebitCard> Cards { get; set; }
 
-        public DebitCardsDB(DbContextOptions<DebitCardsDB> options) : base(options) 
+        public DebitCardsDb(DbContextOptions<DebitCardsDb> options) : base(options) 
             => Database.EnsureCreated();
     }
 }
