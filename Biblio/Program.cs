@@ -3,6 +3,7 @@ using Biblio.DAL.Interfaces;
 using Biblio.DAL.Models.Book;
 using Biblio.DAL.Repositories;
 using Biblio.Mapping;
+using FluentValidation;
 
 #endregion
 
@@ -20,6 +21,8 @@ builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.Configure<BookStoreDatabaseSettings>(builder.Configuration.GetSection("BooksDb"));
 
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
+
+builder.Services.AddScoped<IValidator<Book>, BookValidation>();
 #endregion
 
 var app = builder.Build();
