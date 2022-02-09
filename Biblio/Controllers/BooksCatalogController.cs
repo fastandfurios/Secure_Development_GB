@@ -1,5 +1,7 @@
+using AutoMapper;
 using Biblio.DAL.Interfaces;
 using Biblio.DAL.Models.Book;
+using Biblio.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Biblio.Controllers
@@ -10,11 +12,15 @@ namespace Biblio.Controllers
     {
         private readonly IBookRepository _repository;
         private readonly ILogger<BooksCatalogController> _logger;
+        private readonly IMapper _mapper;
 
-        public BooksCatalogController(IBookRepository repository, ILogger<BooksCatalogController> logger)
+        public BooksCatalogController(IBookRepository repository,
+            ILogger<BooksCatalogController> logger,
+            IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpPost("add_book")]
@@ -27,7 +33,8 @@ namespace Biblio.Controllers
         [HttpGet("books")]
         public async Task<IActionResult> GetBooks()
         {
-            var collection = await _repository.GetAllAsync().ConfigureAwait(true);
+            var collection = (await _repository.GetAllAsync().ConfigureAwait(true))
+                .Select(b => _mapper.Map<BookDto>(b));
             return Ok(collection);
         }
 
@@ -38,7 +45,9 @@ namespace Biblio.Controllers
 
             if (book is null) return NotFound();
 
-            return Ok(book);
+            var bookDto = _mapper.Map<BookDto>(book);
+
+            return Ok(bookDto);
         }
 
         [HttpPut("edit_book/{id}")]
