@@ -30,6 +30,8 @@ namespace Biblio.Controllers
         [HttpPost("add_book")]
         public async Task<IActionResult> AddBook([FromBody] Book book)
         {
+            _logger.LogInformation("{0}", book);
+
             var result = await _validator.ValidateAsync(book).ConfigureAwait(true);
 
             if (result.IsValid)
@@ -66,6 +68,8 @@ namespace Biblio.Controllers
         [HttpPut("edit_book/{id:length(24)}")]
         public async Task<IActionResult> EditBook([FromBody] Book updateBook, string id)
         {
+            _logger.LogInformation("{0}", updateBook);
+
             var book = await _repository.GetEntityAsync(id).ConfigureAwait(true);
 
             if(book is null) return NotFound();
