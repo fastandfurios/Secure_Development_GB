@@ -8,7 +8,8 @@ namespace Biblio.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<Book, BookDto>();
+            CreateMap<Book, BookDto>()
+                .ForMember(dest => dest.Price, oct => oct.MapFrom(src => src.Price.ToString("F")));
         }
     }
 }
