@@ -2,6 +2,8 @@
 using Biblio.DAL.Interfaces;
 using Biblio.DAL.Models.Book;
 using Biblio.DAL.Repositories;
+using Biblio.Mapping;
+
 #endregion
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 builder.Services.Configure<BookStoreDatabaseSettings>(builder.Configuration.GetSection("BooksDb"));
+
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
 #endregion
 
 var app = builder.Build();
