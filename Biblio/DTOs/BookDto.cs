@@ -7,6 +7,6 @@
         public string Genre { get; set; }
         public string Name { get; set; }
         public int NumberOfPages { get; set; }
-        public decimal Price { get; set; }
+        public string Price { get; set; }
     }
 }
