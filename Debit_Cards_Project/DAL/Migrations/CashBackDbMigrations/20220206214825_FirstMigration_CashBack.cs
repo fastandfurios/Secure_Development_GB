@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Debit_Cards_Project.Migrations.CashBackDbMigrations
+namespace Debit_Cards_Project.DAL.Migrations.CashBackDbMigrations
 {
     public partial class FirstMigration_CashBack : Migration
     {
