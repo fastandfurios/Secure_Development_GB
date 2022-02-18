@@ -1,4 +1,4 @@
-html {
+html, .description, .author {
   font-size: 14px;
 }
 
@@ -15,4 +15,14 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+.title {
+    font-size: 20px;
+}
+
+.urls {
+    font-size: 15px;
+    color: blue;
+    text-decoration: underline;
 }
