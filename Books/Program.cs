@@ -1,7 +1,17 @@
+#region references
+using Elasticsearch.Net;
+using Nest;
+#endregion
+
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+#region Add services to the container.
+
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton(GetClient());
+
+#endregion
 
 var app = builder.Build();
 
@@ -25,3 +35,14 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+#region methods
+
+static ElasticClient GetClient()
+{
+    var pool = new SingleNodeConnectionPool(new("http://localhost:9200"));
+    var settings = new ConnectionSettings(pool).DefaultIndex("books");
+    return new(settings);
+}
+
+#endregion
