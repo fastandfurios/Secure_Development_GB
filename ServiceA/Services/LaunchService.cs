@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using Consul;
-using Microsoft.AspNetCore.Hosting.Server.Features;
 
 namespace ServiceA.Services
 {

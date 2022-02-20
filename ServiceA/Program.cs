@@ -14,7 +14,7 @@ builder.Services.AddSingleton<IConsulClient, ConsulClient>(serviceProvider => ne
 {
     configOverride.Address = new(builder.Configuration.GetConnectionString("Consul"));
 }));
-builder.Services.AddSingleton<IHostedService, LaunchService>();
+builder.Services.AddHostedService<LaunchService>();
 builder.Services.AddHealthChecks();
 #endregion
 
