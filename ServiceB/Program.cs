@@ -15,6 +15,7 @@ builder.Services.AddSingleton<IConsulClient, ConsulClient>(serviceProvider => ne
     configOverride.Address = new(builder.Configuration.GetConnectionString("Consul"));
 }));
 builder.Services.AddSingleton<IHostedService, LaunchService>();
+builder.Services.AddHealthChecks();
 #endregion
 
 var app = builder.Build();
@@ -29,6 +30,8 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseHealthChecks("/healthz");
 
 app.Run();
 #endregion

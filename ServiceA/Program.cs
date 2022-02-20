@@ -1,14 +1,11 @@
 #region references
 using Consul;
-using Microsoft.AspNetCore.Hosting.Server.Features;
 using ServiceA.Services;
-
 #endregion
 
 var builder = WebApplication.CreateBuilder(args);
 
 #region Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -18,6 +15,7 @@ builder.Services.AddSingleton<IConsulClient, ConsulClient>(serviceProvider => ne
     configOverride.Address = new(builder.Configuration.GetConnectionString("Consul"));
 }));
 builder.Services.AddSingleton<IHostedService, LaunchService>();
+builder.Services.AddHealthChecks();
 #endregion
 
 var app = builder.Build();
@@ -34,6 +32,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.UseHealthChecks("/healthz");
 
+app.Run();
 #endregion
