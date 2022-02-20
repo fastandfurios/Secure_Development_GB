@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biblio", "Biblio\Biblio.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books", "Books\Books.csproj", "{82F0C34C-E24C-4AF5-B416-A881D0C7F5B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceA", "ServiceA\ServiceA.csproj", "{0C9BC773-C92A-487A-9FF9-C5EE48AA1F72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceA", "ServiceA\ServiceA.csproj", "{0C9BC773-C92A-487A-9FF9-C5EE48AA1F72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceB", "ServiceB\ServiceB.csproj", "{4AFA3D30-2BFE-465B-A204-B6073F071BC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{0C9BC773-C92A-487A-9FF9-C5EE48AA1F72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C9BC773-C92A-487A-9FF9-C5EE48AA1F72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C9BC773-C92A-487A-9FF9-C5EE48AA1F72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AFA3D30-2BFE-465B-A204-B6073F071BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AFA3D30-2BFE-465B-A204-B6073F071BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AFA3D30-2BFE-465B-A204-B6073F071BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AFA3D30-2BFE-465B-A204-B6073F071BC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
