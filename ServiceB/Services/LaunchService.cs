@@ -36,14 +36,14 @@ namespace ServiceB.Services
                 }
             };
 
-            await _consulClient.Agent.ServiceDeregister(registration.ID, _cts.Token);
+            await _consulClient.Agent.ServiceDeregister(registration.ID, _cts.Token).ConfigureAwait(true);
             await _consulClient.Agent.ServiceRegister(registration, _cts.Token);
         }
 
         public async Task StopAsync(CancellationToken token = default)
         {
             _cts.Cancel();
-            await _consulClient.Agent.ServiceDeregister(_serviceId, token);
+            await _consulClient.Agent.ServiceDeregister(_serviceId, token).ConfigureAwait(true);
         }
     }
 }
