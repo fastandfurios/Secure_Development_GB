@@ -27,7 +27,13 @@ namespace ServiceB.Services
                 Name = "ServiceB",
                 Address = uri.Host,
                 Port = uri.Port,
-                Tags = new[] { "api" }
+                Tags = new[] { "api" },
+                Check = new()
+                {
+                    HTTP = $"{uri.Scheme}://{uri.Host}:{uri.Port}/healthz",
+                    Timeout = TimeSpan.FromSeconds(2),
+                    Interval = TimeSpan.FromSeconds(10)
+                }
             };
 
             await _consulClient.Agent.ServiceDeregister(registration.ID, _cts.Token);
